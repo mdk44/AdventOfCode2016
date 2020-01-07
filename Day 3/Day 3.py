@@ -41,9 +41,9 @@ for line in lines:
     col1.append(int(numbers[0]))
     col2.append(int(numbers[1]))
     col3.append(int(numbers[2]))
-# for i in range(2, len(col1)):
-for i in range(2, 9):
+for i in range(2, len(col1), 3):
+# for i in range(2, 9):
     good += part2(col1)
     good += part2(col2)
     good += part2(col3)
-print("Part 2: " + str(good))
+print("Part 2: " + str(good)) # Correct!
