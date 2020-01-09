@@ -1,12 +1,10 @@
 import re
 import collections
 import operator
-# input_file = 'Day 4\\Input.csv'
-input_file = 'Day 4\\Test.csv'
+input_file = 'Day 4\\Input.csv'
+# input_file = 'Day 4\\Test.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n')
-
-print(lines)
 
 def get_sector_id(line):
     num = re.findall(r"\d+",line)
@@ -38,7 +36,27 @@ def count_letters(line):
     new_output = output[0:5]
     return new_output
 
-    # Need to sort these and then return top 5 (alphabetical if equal length)
+def get_part_2(line):
+    name = get_name(line)
+    new_code = ''
+    shift = get_sector_id(line) % 26
+    for i in range(0, len(name)):
+        if ord(name[i]) + shift > 122:
+            new_code += chr(ord(name[i]) + shift + 97 - 123)
+        elif name[i] == '-':
+            new_code += ' '
+        else:
+            new_code += chr(ord(name[i]) + shift)
+    if 'north' in new_code:
+        print("Part 2: " + str(get_sector_id(line)))
+    return new_code
+
+num = 0
+for line in lines:
+    if count_letters(line) == get_checksum(line):
+        num += get_sector_id(line)
+
+print("Part 1: " + str(num)) # Correct!
 
 for line in lines:
-    print(count_letters(line))
+    get_part_2(line) # Correct!
