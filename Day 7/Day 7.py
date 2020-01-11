@@ -5,13 +5,8 @@ text_file = open(input_file)
 lines = text_file.read().split('\n')
 
 for line in lines:
-    lst = []
-    lst.append(re.split('\] | \[', line))
-    print(lst)
+    m = re.split(r"\[(\w+)\]", line)
+    print(m)
 
 
-
-
-import re
-a = 'abcd[fgrd]asda'
-print(re.split('\[ | \]', a))
+#index even = outside of brackets, index odd = inside brackets (so it seems)
