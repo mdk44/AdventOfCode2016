@@ -1,6 +1,7 @@
 import re
 input_file = 'Day 7\\Input.csv'
-# input_file = 'Day 7\\Test.csv'
+# input_file = 'Day 7\\Test1.csv'
+# input_file = 'Day 7\\Test2.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n')
 
@@ -41,7 +42,50 @@ def part_1(line):
         ans = 1
     return ans
 
+def check_aba(string):
+    aba = []
+    bab = []
+    for i in range(2, len(string)):
+        if string[i - 2] == string[i] and string[i - 2] != string[i - 1]:
+            new = string[i - 2] + string[i - 1] + string[i]
+            aba.append(new)
+            new2 = string[i - 1] + string[i] + string[i - 1]
+            bab.append(new2)
+    return aba, bab # The problem here is that I'm appending lists - I need to rewrite so that I'm appending strings only to a final list
+
+def part_2(line):
+    ans = 0
+    aba = []
+    aba2 = []
+    bab = []
+    string = get_strings(line)
+    for s in range(0, len(string)):
+        new, new2 = check_aba(string[s])
+        if check_aba(string[s]) == None:
+            break
+        if s % 2 == 0:
+            for n in new:
+                aba.append(n)
+            for o in new2:
+                aba2.append(o)
+        if s % 2 != 0:
+            for n in new:
+                bab.append(n)
+    for b in bab:
+        if len(b) == 0:
+            break
+        else:
+            if b in aba2:
+                ans = 1
+    return ans
+
 ans = 0
 for line in lines:
     ans += part_1(line)
 print("Part 1: " + str(ans)) # Correct!
+
+ans = 0
+for line in lines:
+    # print(part_2(line))
+    ans += part_2(line)
+print("Part 2: " + str(ans)) # Correct!
