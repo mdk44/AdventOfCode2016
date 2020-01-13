@@ -51,7 +51,7 @@ def check_aba(string):
             aba.append(new)
             new2 = string[i - 1] + string[i] + string[i - 1]
             bab.append(new2)
-    return aba, bab # The problem here is that I'm appending lists - I need to rewrite so that I'm appending strings only to a final list
+    return aba, bab
 
 def part_2(line):
     ans = 0
