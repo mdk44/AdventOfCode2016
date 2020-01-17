@@ -68,4 +68,7 @@ while check_lines:
         del check_lines[i]
         i = 0
 
+p2 = output[0][0] * output[1][0] * output[2][0]
+
 print("Part 1: " + str(ans)) # Correct!  Wow.
+print("Part 2: " + str(p2)) # Correct!
