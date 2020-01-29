@@ -10,12 +10,22 @@ def bldg_part(y, x, inp):
     else:
         return '#'
 
-def print_grid(inp):
+def make_grid(inp):
+    grid = dict()
+    for y in range(0, 41):
+        for x in range(0, 41):
+            grid[y, x] = bldg_part(y, x, inp)
+    return grid
+
+def print_grid(grid, inp):
     for y in range(0, 7):
         line_y = ''
         for x in range(0, 10):
-            section = bldg_part(y, x, inp)
-            line_y += section
+            if x == 1 and y == 1:
+                line_y += 'O'
+            else:
+                line_y += grid[y, x]
         print(line_y)
 
-print_grid(inp)
+grid = make_grid(inp)
+print_grid(grid, inp)
