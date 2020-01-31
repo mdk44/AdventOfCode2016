@@ -1,31 +1,29 @@
-inp = 10
-# inp = 1352
+def wall(x, y):
+    value = x*x + 3*x + 2*x*y + y + y*y + 1352
+    one_bits = bin(value).count('1')
+    return one_bits % 2 == 1
 
-def bldg_part(y, x, inp):
-    num = x*x + 3*x + 2*x*y + y + y*y + inp
-    bin_num = bin(num)
-    count_1 = bin_num.count('1')
-    if count_1 % 2 == 0:
-        return '.'
-    else:
-        return '#'
+old = {(1, 1)}
+steps = 0
+new = old
 
-def make_grid(inp):
-    grid = dict()
-    for y in range(0, 41):
-        for x in range(0, 41):
-            grid[y, x] = bldg_part(y, x, inp)
-    return grid
+part1 = 0
+part2 = 0
 
-def print_grid(grid, inp):
-    for y in range(0, 7):
-        line_y = ''
-        for x in range(0, 10):
-            if x == 1 and y == 1:
-                line_y += 'O'
-            else:
-                line_y += grid[y, x]
-        print(line_y)
+while part1 == 0 or part2 == 0:
+    places_to_check = new.copy()
+    new = set()
+    for cur_x, cur_y in places_to_check:
+        for x, y in [(cur_x + 1, cur_y), (cur_x - 1, cur_y), (cur_x, cur_y + 1), (cur_x, cur_y - 1)]:
+            if x < 0 or y < 0 or (x, y) in old or wall(x, y):
+                continue
+            old.add((x, y))
+            new.add((x, y))
+    steps += 1
+    if (31, 39) in new:
+        part1 = steps
+    if steps == 50:
+        part2 = len(old)
 
-grid = make_grid(inp)
-print_grid(grid, inp)
+print(part1) # Correct!
+print(part2) # Correct!
