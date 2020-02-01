@@ -1,7 +1,7 @@
 import hashlib
 
-salt = 'abc' # Test result is correct: 22728
-# salt = 'qzyelonm'
+# salt = 'abc' # Test result is correct: 22728 for part 1, 22551 for part 2
+salt = 'qzyelonm'
 
 def md5(salt, index):
     inp = salt + str(index) 
@@ -31,28 +31,44 @@ def triplets(salt, index, part):
             return new
     return ''
 
-def check_index(salt, index, part):
+def make_list(salt, part):
+    lst = list()
+    for i in range(1, 1002):
+        if part == 1:
+            lst.append(md5(salt, i))
+        elif part == 2:
+            lst.append(md5_2017(salt, i))
+    return lst
+
+def check_index(salt, index, part, lst):
     new = triplets(salt, index, part)
     if len(new) == 0:
         return 0
-    for i in range(index + 1, 1001 + index):
-        if part == 1:
-            inp = md5(salt, i)
-        elif part == 2:
-            inp = md5_2017(salt, i)
-        if new in inp:
+    for l in lst:
+        if new in l:
             return 1
     return 0
 
-def find_64(salt, part):
+def find_64(salt, part, lst):
     key = 0
     index = 0
-    p1 = False
-    while p1 == False:
-        key += check_index(salt, index, part)
+    ans = False
+    while ans == False:
+        key += check_index(salt, index, part, lst)
         if key == 64:
-            p1 = True
+            ans = True
             return index
         index += 1
+        del lst[0]
+        if part == 1:
+            lst.append(md5(salt, index + 1001))
+        elif part == 2:
+            lst.append(md5_2017(salt, index + 1001))
 
-print(find_64(salt, 1)) # Correct!
+# Part 1
+lst = make_list(salt, 1)
+print("Part 1: " + str(find_64(salt, 1, lst))) # Correct!
+
+# Part 2
+lst = make_list(salt, 2)
+print("Part 2: " + str(find_64(salt, 2, lst))) # Correct!
