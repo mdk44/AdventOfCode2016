@@ -11,7 +11,7 @@ moves = {
 
 def doors(path):
     string = (inp + ''.join(path)).encode('utf-8')
-    return (int(x, 16) > 10 for x in md5(string).hexdigest()[:4])
+    return (int(x, 16) > 10 for x in md5(string).hexdigest()[:4]) # Converts hex string to integer
 
 def move(start, goal):
     paths = [(start, [start], [])]
