@@ -40,13 +40,53 @@ def swap_let(inp, line):
     for i in lst:
         string += i
     return string
-    
+
+def reverse(inp, line):
+    string = ''
+    numbers = re.findall(r"\d+",line)
+    pos0 = int(numbers[0])
+    pos1 = int(numbers[1])
+    lst = []
+    for i in range(0, pos0):
+        if pos0 != 0:
+            lst.append(inp[i])
+    for i in range(pos1, pos0 - 1, -1):
+        lst.append(inp[i])
+    for i in range(pos1, len(inp)):
+        if pos1 != len(inp) - 1:
+            lst.append(inp[i])
+    for i in lst:
+        string += i
+    return string
+
+def rotate_lr(inp, line):
+    string = ''
+    spl = line.split(' ')
+    direction = spl[1]
+    steps = int(spl[2])
+    lst = []
+    if direction == 'left':
+        for i in range(steps, len(inp)):
+            lst.append(inp[i])
+        for i in range(0, steps):
+            lst.append(inp[i])
+    if direction == 'right':
+        for i in range(len(inp) - steps, len(inp)):
+            lst.append(inp[i])
+        for i in range(0, len(inp) - steps):
+            lst.append(inp[i])
+    for i in lst:
+        string += i
+    return string
+
 
 string = swap_pos(test_inp, test_lines[0])
 string = swap_let(string, test_lines[1])
+string = reverse(string, test_lines[2])
+string = rotate_lr(string, test_lines[3])
+print(string)
 
 
-# reverse positions 0 through 4 causes the entire string to be reversed, producing abcde.
 # rotate left 1 step shifts all letters left one position, causing the first letter to wrap to the end of the string: bcdea.
 # move position 1 to position 4 removes the letter at position 1 (c), then inserts it at position 4 (the end of the string): bdeac.
 # move position 3 to position 0 removes the letter at position 3 (a), then inserts it at position 0 (the front of the string): abdec.
