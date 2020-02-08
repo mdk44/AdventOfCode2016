@@ -10,12 +10,12 @@ test_inp = 'abcde'
 
 def swap_pos(inp, line):
     string = ''
+    lst = []
     numbers = re.findall(r"\d+",line)
     num0 = int(numbers[0])
     num1 = int(numbers[1])
     let0 = inp[num0]
     let1 = inp[num1]
-    lst = []
     for i in range(0, len(inp)):
         lst.append(inp[i])
     lst[num0] = let1
@@ -26,10 +26,10 @@ def swap_pos(inp, line):
 
 def swap_let(inp, line):
     string = ''
+    lst = []
     spl = line.split(' ')
     let0 = spl[2]
     let1 = spl[5]
-    lst = []
     for i in range(0, len(inp)):
         if inp[i] == let0:
             lst.append(let1)
@@ -43,16 +43,16 @@ def swap_let(inp, line):
 
 def reverse(inp, line):
     string = ''
+    lst = []
     numbers = re.findall(r"\d+",line)
     pos0 = int(numbers[0])
     pos1 = int(numbers[1])
-    lst = []
     for i in range(0, pos0):
         if pos0 != 0:
             lst.append(inp[i])
     for i in range(pos1, pos0 - 1, -1):
         lst.append(inp[i])
-    for i in range(pos1, len(inp)):
+    for i in range(pos1 + 1, len(inp)):
         if pos1 != len(inp) - 1:
             lst.append(inp[i])
     for i in lst:
@@ -61,10 +61,10 @@ def reverse(inp, line):
 
 def rotate_lr(inp, line):
     string = ''
+    lst = []
     spl = line.split(' ')
     direction = spl[1]
     steps = int(spl[2])
-    lst = []
     if direction == 'left':
         for i in range(steps, len(inp)):
             lst.append(inp[i])
@@ -79,16 +79,62 @@ def rotate_lr(inp, line):
         string += i
     return string
 
+def move(inp, line):
+    string = ''
+    lst = []
+    numbers = re.findall(r"\d+",line)
+    pos0 = int(numbers[0])
+    pos1 = int(numbers[1])
+    let = inp[pos0]
+    for i in range(0, len(inp)):
+        lst.append(inp[i])
+    del lst[pos0]
+    lst.insert(pos1, let)
+    for i in lst:
+        string += i
+    return string
 
-string = swap_pos(test_inp, test_lines[0])
-string = swap_let(string, test_lines[1])
-string = reverse(string, test_lines[2])
-string = rotate_lr(string, test_lines[3])
-print(string)
+def rotate_pos(inp, line):
+    spl = line.split(' ')
+    let = spl[6]
+    index = inp.find(let)
+    if index >= 4:
+        index += 2
+    else:
+        index += 1
+    rot = index % len(inp)
+    return inp[-rot:] + inp[:-rot]
 
+def find_function(line):
+    if 'swap position' in line:
+        return 0
+    elif 'swap letter' in line:
+        return 1
+    elif 'reverse' in line:
+        return 2
+    elif 'rotate left' in line or 'rotate right' in line:
+        return 3
+    elif 'move' in line:
+        return 4
+    elif 'rotate based' in line:
+        return 5
 
-# rotate left 1 step shifts all letters left one position, causing the first letter to wrap to the end of the string: bcdea.
-# move position 1 to position 4 removes the letter at position 1 (c), then inserts it at position 4 (the end of the string): bdeac.
-# move position 3 to position 0 removes the letter at position 3 (a), then inserts it at position 0 (the front of the string): abdec.
-# rotate based on position of letter b finds the index of letter b (1), then rotates the string right once plus a number of times equal to that index (2): ecabd.
-# rotate based on position of letter d finds the index of letter d (4), then rotates the string right once, plus a number of times equal to that index, plus an additional time because the index was at least 4, for a total of 6 right rotations: decab.
+def scramble(inp, lines):
+    string = inp
+    for line in lines:
+        function = find_function(line)
+        string = options[function](string, line)
+        # print(string)
+    return string
+
+options = {
+    0: swap_pos,
+    1: swap_let,
+    2: reverse,
+    3: rotate_lr,
+    4: move,
+    5: rotate_pos,
+}
+
+print("Test: " + scramble(test_inp, test_lines)) # Correct!
+print("Part 1: " + scramble(inp, lines)) # Correct!
