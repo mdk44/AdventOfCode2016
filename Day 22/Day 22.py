@@ -1,6 +1,7 @@
 import re
 
-input_file = 'Day 22\\Input.csv'
+# input_file = 'Day 22\\Input.csv'
+input_file = 'Day 22\\Test.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n') # x y Size Used Avail Use%
 del lines[0]
