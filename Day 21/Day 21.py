@@ -1,11 +1,13 @@
 import re
+from itertools import permutations
 
 text_file = open('Day 21\\Input.csv')
 test_file = open('Day 21\\Test.csv')
 lines = text_file.read().split('\n')
 test_lines = test_file.read().split('\n')
 
-inp = 'abcdefgh'
+inp_p1 = 'abcdefgh'
+inp_p2 = 'fbgdceah'
 test_inp = 'abcde'
 
 def swap_pos(inp, line):
@@ -127,6 +129,17 @@ def scramble(inp, lines):
         # print(string)
     return string
 
+def unscramble(inp, lines):
+    lst = []
+    for i in range(0, len(inp)):
+        lst.append(inp[i])
+    for p in permutations(lst):
+        string = ''
+        for i in range(0, len(p)):
+            string += p[i]
+        if scramble(string, lines) == inp_p2:
+            return string
+
 options = {
     0: swap_pos,
     1: swap_let,
@@ -137,4 +150,5 @@ options = {
 }
 
 print("Test: " + scramble(test_inp, test_lines)) # Correct!
-print("Part 1: " + scramble(inp, lines)) # Correct!
+print("Part 1: " + scramble(inp_p1, lines)) # Correct!
+print("Part 2: " + unscramble(inp_p1, lines)) # Correct!
