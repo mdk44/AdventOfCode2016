@@ -1,7 +1,6 @@
 import re
 
-# input_file = 'Day 22\\Input.csv'
-input_file = 'Day 22\\Test.csv'
+input_file = 'Day 22\\Input.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n') # x y Size Used Avail Use%
 del lines[0]
@@ -33,4 +32,10 @@ def compare_lines(lines):
                 ans += good
     return ans
 
+def print_map(lines):
+    for line in lines:
+        print(read_line(line))
+
 print("Part 1: " + str(compare_lines(lines)))
+# Part 2 needs to be done by hand.  Will include an Excel file.
+# print_map(lines)
