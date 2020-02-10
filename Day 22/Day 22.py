@@ -37,5 +37,5 @@ def print_map(lines):
         print(read_line(line))
 
 print("Part 1: " + str(compare_lines(lines)))
-# Part 2 needs to be done by hand.  Will include an Excel file.
+# Part 2 needs to be done by hand.  Will include an Excel file.  It was correct.
 # print_map(lines)
