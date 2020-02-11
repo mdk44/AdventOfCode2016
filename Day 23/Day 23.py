@@ -1,13 +1,11 @@
-# input_file = 'Day 23\\Input.csv'
-input_file = 'Day 23\\Test.csv'
+import math
+
+input_file = 'Day 23\\Input.csv'
+# input_file = 'Day 23\\Test.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n')
 
 regs = dict()
-
-def read_line(line):
-    inp = line.split(' ')
-    return inp
 
 def inc(inp):
     regs[inp[1]] += 1
@@ -51,22 +49,44 @@ def jnz(inp):
         else:
             return 1
 
-def tgl(inp):
+def tgl(inp, line):
+    if inp[1] in ('a', 'b', 'c', 'd'):
+        num = line + regs[inp[1]]
+    else:
+        num = line + int(inp[1])
+    try:
+        new_inp = lines[num].split(' ')
+        if len(new_inp) == 2:
+            if instr[num] == 'inc':
+                instr[num] = 'dec'
+            else:
+                instr[num] = 'inc'
+        else:
+            if instr[num] == 'jnz':
+                instr[num] = 'cpy'
+            else:
+                instr[num] = 'jnz'
+    except:
+        pass
     return 1
 
 def function(lines, i):
-    inp = read_line(lines[i])
-    if inp[0] == 'inc':
+    inst = instr[i]
+    inp = lines[i].split(' ')
+    if inst == 'inc':
         funct = 0
-    if inp[0] == 'dec':
+    if inst == 'dec':
         funct = 1
-    if inp[0] == 'cpy':
+    if inst == 'cpy':
         funct = 2
-    if inp[0] == 'jnz':
+    if inst == 'jnz':
         funct = 3
-    if inp[0] == 'tgl':
+    if inst == 'tgl':
         funct = 4
-    num = options[funct](inp)
+    if funct != 4:
+        num = options[funct](inp)
+    else:
+        num = options[funct](inp, i)
     return num
 
 
@@ -81,12 +101,23 @@ options = {
 
 # Part 1
 i = 0
+instr = []
+
+for line in lines:
+    temp = line.split(' ')
+    instr.append(temp[0])
+
 regs['a'] = 7
 regs['b'] = 0
 regs['c'] = 0
 regs['d'] = 0
 while i < len(lines):
     i += function(lines, i)
-print("Part 1:")
+print("Part 1:") # Correct!
 print(regs)
 print("")
+
+# Part 2 - optimization algorithm based on two largest numbers in input and new number of eggs (12)
+num = 90 * 73 + math.factorial(12)
+print("Part 2:")
+print(num)
