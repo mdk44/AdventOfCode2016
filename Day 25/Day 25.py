@@ -117,7 +117,8 @@ for line in lines:
     temp = line.split(' ')
     instr.append(temp[0])
 
-regs['a'] = 3
+
+regs['a'] = 182
 regs['b'] = 0
 regs['c'] = 0
 regs['d'] = 0
@@ -126,3 +127,7 @@ while i < len(lines):
     if len(outp) == 20:
         break
 print(outp)
+
+# Based on the input, there is a continual loop of 14 * 182 = 2548.  This is a binary thing.
+# The first instance of repeating 101010101010 is 2730.
+# 2730 - 2548 = 182, the answer.
